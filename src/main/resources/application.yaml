@@ -1,0 +1,63 @@
+server:
+  servlet:
+    context-path: /siaas-api
+
+cors:
+  # Lê da variável de ambiente CORS_ALLOWED_ORIGINS.
+  # Se não tiver setado, usa http://localhost:4200 como default (para desenvolvimento local).
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:4200}
+
+#logging:
+# structured:
+#    format:
+#      console: gelf
+logging:
+  level:
+    root: INFO
+    br.gov.caixa.siaas_api: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.hibernate.SQL: DEBUG
+
+spring:
+  application:
+    name: siaas-api
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+  jackson:
+    mapper:
+      allow-coercion-of-scalars: false
+
+management:
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: ${ACTUATOR_EXPOSE:health,info}
+  endpoint:
+    health:
+      show-details: ${ACTUATOR_HEALTH_DETAILS:never}
+      readiness:
+        enabled: true
+      liveness:
+        enabled: true
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:false}
+  api-docs:
+    enabled: ${SPRINGDOC_API_DOCS_ENABLED:false}
