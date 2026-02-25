@@ -1,7 +1,6 @@
 # Arquivos e diretórios gerados
 target/
 build/
-out/
 bin/
 
 # Maven wrapper

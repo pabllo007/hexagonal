@@ -1,0 +1,23 @@
+package br.gov.caixa.siaas_api.adapters.out.persistence.jpa.repository;
+
+import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.entity.UnidadeGestoraEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UnidadeGestoraRepository
+        extends JpaRepository<UnidadeGestoraEntity, Long>, JpaSpecificationExecutor<UnidadeGestoraEntity> {
+    @Query("""
+        select ug
+        from UnidadeGestoraEntity ug
+        join fetch ug.tipoUnidadeGestora t
+        left join fetch ug.grupoTrabalho g
+        where ug.nuUnidadeGestora = :nuUnidadeGestora
+    """)
+    Optional<UnidadeGestoraEntity> findByNuUnidadeGestora(Long nuUnidadeGestora);
+
+}
