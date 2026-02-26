@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -98,6 +99,17 @@ public class GlobalExceptionHandler {
         pb.setDetail(detail);
         pb.setType(URI.create("urn:simpa:json:invalid"));
         pb.setProperty("code", "error.json.invalid");
+
+        return ResponseEntity.badRequest().body(pb);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ProblemDetail> handlePropertyReferenceException(PropertyReferenceException ex) {
+        ProblemDetail pb = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        pb.setTitle("Parâmetro de ordenação inválido");
+        pb.setDetail("Campo de ordenação inválido: '" + ex.getPropertyName() + "'.");
+        pb.setType(URI.create("urn:simpa:query:invalid-sort"));
+        pb.setProperty("code", "error.query.invalid-sort");
 
         return ResponseEntity.badRequest().body(pb);
     }
