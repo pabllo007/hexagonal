@@ -7,5 +7,6 @@ import java.util.Optional;
 public interface UnidadeGestoraPort {
 
         Optional<UnidadeGestora> findById(Long nuUnidadeGestora);
+        Optional<UnidadeGestora> buscarPorCodigoEhTipo(Long nuUnidade, Long tipo);
 
 }

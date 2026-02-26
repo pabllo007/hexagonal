@@ -9,30 +9,31 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PaginacaoUtilsTest {
 
+    private static final String STR_NUBASEAUTENTICACAO = "nuBaseAutenticacao";
     @Test
     void criarPageable_deveUsarPadroes_quandoNulos() {
-        Pageable p = PaginacaoUtils.criarPageable(null, null, null, null, "nuBaseAutenticacao");
+        Pageable p = PaginacaoUtils.criarPageable(null, null, null, null, STR_NUBASEAUTENTICACAO);
 
         assertEquals(0, p.getPageNumber());
         assertEquals(20, p.getPageSize());
 
-        Sort.Order order = p.getSort().getOrderFor("nuBaseAutenticacao");
+        Sort.Order order = p.getSort().getOrderFor(STR_NUBASEAUTENTICACAO);
         assertNotNull(order);
         assertEquals(Sort.Direction.ASC, order.getDirection());
     }
 
     @Test
     void criarPageable_deveUsarDefaultSort_quandoSortByEmBranco() {
-        Pageable p = PaginacaoUtils.criarPageable(0, 20, "   ", "DESC", "nuBaseAutenticacao");
+        Pageable p = PaginacaoUtils.criarPageable(0, 20, "   ", "DESC", STR_NUBASEAUTENTICACAO);
 
-        Sort.Order order = p.getSort().getOrderFor("nuBaseAutenticacao");
+        Sort.Order order = p.getSort().getOrderFor(STR_NUBASEAUTENTICACAO);
         assertNotNull(order);
         assertEquals(Sort.Direction.DESC, order.getDirection());
     }
 
     @Test
     void criarPageable_deveUsarSortBy_quandoInformado() {
-        Pageable p = PaginacaoUtils.criarPageable(1, 10, "noBaseAutenticacao", "ASC", "nuBaseAutenticacao");
+        Pageable p = PaginacaoUtils.criarPageable(1, 10, "noBaseAutenticacao", "ASC", STR_NUBASEAUTENTICACAO);
 
         assertEquals(1, p.getPageNumber());
         assertEquals(10, p.getPageSize());
@@ -44,7 +45,7 @@ class PaginacaoUtilsTest {
 
     @Test
     void criarPageable_deveNormalizarPageESize_invalidos() {
-        Pageable p = PaginacaoUtils.criarPageable(-1, 0, null, null, "nuBaseAutenticacao");
+        Pageable p = PaginacaoUtils.criarPageable(-1, 0, null, null, STR_NUBASEAUTENTICACAO);
         assertEquals(0, p.getPageNumber());
         assertEquals(20, p.getPageSize());
     }
@@ -71,12 +72,12 @@ class PaginacaoUtilsTest {
     void criarPageable_deveAssumirAsc_quandoDirectionEmBranco() {
         Pageable p = PaginacaoUtils.criarPageable(
                 0, 20,
-                "nuBaseAutenticacao",
+                STR_NUBASEAUTENTICACAO,
                 "   ",
-                "nuBaseAutenticacao"
+                STR_NUBASEAUTENTICACAO
         );
 
-        Sort.Order order = p.getSort().getOrderFor("nuBaseAutenticacao");
+        Sort.Order order = p.getSort().getOrderFor(STR_NUBASEAUTENTICACAO);
         assertNotNull(order);
         assertEquals(Sort.Direction.ASC, order.getDirection());
     }

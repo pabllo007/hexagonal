@@ -20,4 +20,14 @@ public interface UnidadeGestoraRepository
     """)
     Optional<UnidadeGestoraEntity> findByNuUnidadeGestora(Long nuUnidadeGestora);
 
+    @Query("""
+        select ug
+        from UnidadeGestoraEntity ug
+        join fetch ug.tipoUnidadeGestora t
+        left join fetch ug.grupoTrabalho g
+        where ug.nuUnidade = :nuUnidade 
+            and ug.tipoUnidadeGestora.nuTipoUnidadeGestora = :tipo 
+    """)
+    Optional<UnidadeGestoraEntity> findByNuUnidadeEhTipoUnidadeGestora(Long nuUnidade, Long tipo);
+
 }

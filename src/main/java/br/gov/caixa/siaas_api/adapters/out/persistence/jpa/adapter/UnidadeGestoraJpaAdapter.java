@@ -22,4 +22,10 @@ public class UnidadeGestoraJpaAdapter implements UnidadeGestoraPort {
     public Optional<UnidadeGestora> findById(Long nuUnidadeGestora) {
         return repository.findByNuUnidadeGestora(nuUnidadeGestora).map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<UnidadeGestora> buscarPorCodigoEhTipo(Long nuUnidade, Long tipo) {
+        return repository.findByNuUnidadeEhTipoUnidadeGestora(nuUnidade, tipo)
+                .map(mapper::toDomain);
+    }
 }

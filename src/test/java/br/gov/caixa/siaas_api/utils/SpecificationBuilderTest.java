@@ -10,6 +10,10 @@ import static org.mockito.Mockito.*;
 
 class SpecificationBuilderTest {
 
+    private static final String STR_CAMPO = "campo";
+    private static final String STR_CAMPO1 = "campo1";
+    private static final String STR_CAMPO2 = "campo2";
+
     static class Dummy {}
 
     @Test
@@ -25,8 +29,8 @@ class SpecificationBuilderTest {
         @SuppressWarnings("unchecked")
         Path<Object> p2 = (Path<Object>) mock(Path.class);
 
-        when(root.get("campo1")).thenReturn(p1);
-        when(root.get("campo2")).thenReturn(p2);
+        when(root.get(STR_CAMPO1)).thenReturn(p1);
+        when(root.get(STR_CAMPO2)).thenReturn(p2);
 
         Predicate predEq = mock(Predicate.class);
         Predicate predLike = mock(Predicate.class);
@@ -43,8 +47,8 @@ class SpecificationBuilderTest {
         when(cb.and(any(Predicate.class), any(Predicate.class))).thenReturn(predAnd);
 
         Specification<Dummy> spec = new SpecificationBuilder<Dummy>()
-                .withEqual("campo1", 10L)
-                .withLike("campo2", "abc")
+                .withEqual(STR_CAMPO1, 10L)
+                .withLike(STR_CAMPO2, "abc")
                 .build();
 
         Predicate result = spec.toPredicate(root, cq, cb);
@@ -60,8 +64,8 @@ class SpecificationBuilderTest {
     @Test
     void withLike_deveIgnorarQuandoValorNullOuVazio() {
         Specification<Dummy> spec = new SpecificationBuilder<Dummy>()
-                .withLike("campo", null)
-                .withLike("campo", "")
+                .withLike(STR_CAMPO, null)
+                .withLike(STR_CAMPO, "")
                 .build();
 
         Root<Dummy> root = mock(Root.class);
@@ -74,7 +78,7 @@ class SpecificationBuilderTest {
     @Test
     void withEqual_deveIgnorarQuandoValorNull() {
         Specification<Dummy> spec = new SpecificationBuilder<Dummy>()
-                .withEqual("campo", null)
+                .withEqual(STR_CAMPO, null)
                 .build();
 
         Root<Dummy> root = mock(Root.class);

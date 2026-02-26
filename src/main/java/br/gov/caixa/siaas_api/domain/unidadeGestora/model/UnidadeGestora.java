@@ -12,9 +12,7 @@ public class UnidadeGestora {
     private TipoUnidadeGestora tipo;
     private GrupoTrabalho grupoTrabalho;
     private boolean ativo;
-    public UnidadeGestora() {
 
-    }
     public Long getNuUnidadeGestora() { return nuUnidadeGestora; }
     public void setNuUnidadeGestora(Long nuUnidadeGestora) { this.nuUnidadeGestora = nuUnidadeGestora; }
 

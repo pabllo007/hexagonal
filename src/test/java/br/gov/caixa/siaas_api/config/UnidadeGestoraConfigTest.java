@@ -4,7 +4,9 @@ import br.gov.caixa.siaas_api.adapters.in.web.unidadegestora.mapper.UnidadeGesto
 import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.adapter.UnidadeGestoraJpaAdapter;
 import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.mapper.UnidadeGestoraPersistenceMapper;
 import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.repository.UnidadeGestoraRepository;
+import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarPorCodigoETipoUseCase;
 import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarUnidadeGestoraPorIdUseCase;
+import br.gov.caixa.siaas_api.application.unidadegestora.usecase.BuscarUnidadeGestoraPorCodigoEhTipoService;
 import br.gov.caixa.siaas_api.application.unidadegestora.usecase.BuscarUnidadeGestoraPorIdService;
 import org.junit.jupiter.api.Test;
 
@@ -56,5 +58,17 @@ class UnidadeGestoraConfigTest {
 
         assertNotNull(bean);
         assertTrue(bean instanceof BuscarUnidadeGestoraPorIdService);
+    }
+
+    @Test
+    void buscarUnidadeGestoraPorCodigoTipo_deveCriarBean() {
+        UnidadeGestoraConfig config = new UnidadeGestoraConfig();
+
+        UnidadeGestoraJpaAdapter adapter = mock(UnidadeGestoraJpaAdapter.class);
+
+        BuscarPorCodigoETipoUseCase bean = config.buscarPorCodigoETipoUseCase(adapter);
+
+        assertNotNull(bean);
+        assertTrue(bean instanceof BuscarUnidadeGestoraPorCodigoEhTipoService);
     }
 }

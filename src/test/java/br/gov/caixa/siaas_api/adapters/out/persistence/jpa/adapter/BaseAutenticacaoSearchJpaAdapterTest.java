@@ -31,6 +31,8 @@ class BaseAutenticacaoSearchJpaAdapterTest {
     @InjectMocks
     private BaseAutenticacaoSearchJpaAdapter adapter;
 
+    private final String STR_NOBASEAUTENTICACAO = "noBaseAutenticacao";
+
     @Test
     void search_deveRetornarPageResult_mapearConteudo_eUsarDefaultSortQuandoNulo() {
         BaseAutenticacaoSearchQuery q = mock(BaseAutenticacaoSearchQuery.class);
@@ -102,7 +104,7 @@ class BaseAutenticacaoSearchJpaAdapterTest {
 
         when(q.page()).thenReturn(2);
         when(q.size()).thenReturn(5);
-        when(q.sortBy()).thenReturn("noBaseAutenticacao");
+        when(q.sortBy()).thenReturn(STR_NOBASEAUTENTICACAO);
         when(q.direction()).thenReturn("DESC");
 
         when(q.nuBaseAutenticacao()).thenReturn(null);
@@ -111,7 +113,7 @@ class BaseAutenticacaoSearchJpaAdapterTest {
 
         Page<BaseAutenticacaoEntity> page = new PageImpl<>(
                 List.of(),
-                PageRequest.of(2, 5, Sort.by(Sort.Direction.DESC, "noBaseAutenticacao")),
+                PageRequest.of(2, 5, Sort.by(Sort.Direction.DESC, STR_NOBASEAUTENTICACAO)),
                 0
         );
 
@@ -130,7 +132,7 @@ class BaseAutenticacaoSearchJpaAdapterTest {
         assertEquals(2, used.getPageNumber());
         assertEquals(5, used.getPageSize());
 
-        Sort.Order order = used.getSort().getOrderFor("noBaseAutenticacao");
+        Sort.Order order = used.getSort().getOrderFor(STR_NOBASEAUTENTICACAO);
         assertNotNull(order);
         assertEquals(Sort.Direction.DESC, order.getDirection());
 

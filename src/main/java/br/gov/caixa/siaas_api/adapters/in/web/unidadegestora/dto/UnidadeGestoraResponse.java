@@ -9,9 +9,25 @@ public record UnidadeGestoraResponse(
         @Schema(example = "Unidade 001")
         String noUnidadeGestora,
 
-        @Schema(example = "Desenvolvimento")
-        String tipoUnidadeGestora,
-
         @Schema(example = "S")
-        boolean icAtivo
+        boolean icAtivo,
+
+        @Schema(example = "1234")
+        Integer nuUnidade,
+
+        @Schema(example = "1")
+        Integer nuTipoUnidade,
+
+        @Schema(example = "Desenvolvimento")
+        String notipoUnidadeGestora,
+
+        @Schema(example = "1")
+        Integer nuGrupoTrabalho,
+
+        @Schema(example = "CEDES XPTO")
+        String noGrupoTrabalho,
+
+        @Schema(example = "siaas@xpto.gov.br")
+         String noCaixaPostal
+
 ) {}

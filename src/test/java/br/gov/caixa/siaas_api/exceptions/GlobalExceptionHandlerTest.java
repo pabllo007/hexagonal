@@ -36,6 +36,9 @@ class GlobalExceptionHandlerTest {
     private static final String ERRO_INTERNO = "Erro interno";
     private static final String STRING_X = "x";
     private static final String MESSAGE_NOME_BASE_OBRIGATORIO = " O nome da base de autenticação é obrigatório.";
+    private static final String STR_CAMPO1 = "campo1";
+    private static final String STR_CAMPO2 = "campo2";
+
 
     @Test
     void tratarNaoEncontradoDeveRetornar404() {
@@ -173,8 +176,8 @@ class GlobalExceptionHandlerTest {
 
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(new Object(), "obj");
 
-        br.addError(new FieldError("obj", "campo1", "msg1"));
-        br.addError(new FieldError("obj", "campo1", "msg2"));
+        br.addError(new FieldError("obj", STR_CAMPO1, "msg1"));
+        br.addError(new FieldError("obj", STR_CAMPO1, "msg2"));
 
         MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, br);
 
@@ -195,8 +198,8 @@ class GlobalExceptionHandlerTest {
         GlobalExceptionHandler handler = new GlobalExceptionHandler(ms);
 
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(new Object(), "obj");
-        br.addError(new FieldError("obj", "campo1", "erro1"));
-        br.addError(new FieldError("obj", "campo2", "erro2"));
+        br.addError(new FieldError("obj", STR_CAMPO1, "erro1"));
+        br.addError(new FieldError("obj", STR_CAMPO2, "erro2"));
 
         MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, br);
 
@@ -215,8 +218,8 @@ class GlobalExceptionHandlerTest {
 
         Object alvo = new Object();
         BeanPropertyBindingResult br = new BeanPropertyBindingResult(alvo, "obj");
-        br.addError(new FieldError("obj", "campo1", "erro1"));
-        br.addError(new FieldError("obj", "campo2", "erro2"));
+        br.addError(new FieldError("obj", STR_CAMPO1, "erro1"));
+        br.addError(new FieldError("obj", STR_CAMPO2, "erro2"));
 
         MethodArgumentNotValidException ex = new MethodArgumentNotValidException(null, br);
 

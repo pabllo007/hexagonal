@@ -14,6 +14,8 @@ import static org.mockito.Mockito.*;
 class UnidadeGestoraJpaAdapterTest {
 
     private static final Long NU_UNIDADE_GESTORA = 10L;
+    private static final Long CODIGO = 1L;
+    private static final Long TIPO = 2L;
 
     @Test
     void findById_deveRetornarOptionalVazio_quandoRepositoryNaoEncontrar() {
@@ -43,7 +45,9 @@ class UnidadeGestoraJpaAdapterTest {
         UnidadeGestora domain = new UnidadeGestora();
         domain.setNuUnidadeGestora(NU_UNIDADE_GESTORA);
 
-        when(repository.findByNuUnidadeGestora(NU_UNIDADE_GESTORA)).thenReturn(Optional.of(entity));
+        when(repository.findByNuUnidadeGestora(NU_UNIDADE_GESTORA))
+                .thenReturn(Optional.of(entity));
+
         when(mapper.toDomain(entity)).thenReturn(domain);
 
         Optional<UnidadeGestora> result = adapter.findById(NU_UNIDADE_GESTORA);
@@ -53,6 +57,59 @@ class UnidadeGestoraJpaAdapterTest {
         assertSame(domain, result.get());
 
         verify(repository, times(1)).findByNuUnidadeGestora(NU_UNIDADE_GESTORA);
+        verify(mapper, times(1)).toDomain(entity);
+        verifyNoMoreInteractions(repository, mapper);
+    }
+
+    // -------------------------------------------------------------------------
+    // NOVOS TESTES: buscarPorCodigoEhTipo
+    // -------------------------------------------------------------------------
+
+    @Test
+    void buscarPorCodigoEhTipo_deveRetornarOptionalVazio_quandoRepositoryNaoEncontrar() {
+        UnidadeGestoraRepository repository = mock(UnidadeGestoraRepository.class);
+        UnidadeGestoraPersistenceMapper mapper = mock(UnidadeGestoraPersistenceMapper.class);
+        UnidadeGestoraJpaAdapter adapter = new UnidadeGestoraJpaAdapter(repository, mapper);
+
+        when(repository.findByNuUnidadeEhTipoUnidadeGestora(CODIGO, TIPO))
+                .thenReturn(Optional.empty());
+
+        Optional<UnidadeGestora> result = adapter.buscarPorCodigoEhTipo(CODIGO, TIPO);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
+        verify(repository, times(1))
+                .findByNuUnidadeEhTipoUnidadeGestora(CODIGO, TIPO);
+
+        verifyNoInteractions(mapper);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void buscarPorCodigoEhTipo_deveMapearEntityParaDomain_quandoEncontrar() {
+        UnidadeGestoraRepository repository = mock(UnidadeGestoraRepository.class);
+        UnidadeGestoraPersistenceMapper mapper = mock(UnidadeGestoraPersistenceMapper.class);
+        UnidadeGestoraJpaAdapter adapter = new UnidadeGestoraJpaAdapter(repository, mapper);
+
+        UnidadeGestoraEntity entity = new UnidadeGestoraEntity();
+        UnidadeGestora domain = new UnidadeGestora();
+        domain.setNuUnidadeGestora(CODIGO);
+
+        when(repository.findByNuUnidadeEhTipoUnidadeGestora(CODIGO, TIPO))
+                .thenReturn(Optional.of(entity));
+
+        when(mapper.toDomain(entity)).thenReturn(domain);
+
+        Optional<UnidadeGestora> result = adapter.buscarPorCodigoEhTipo(CODIGO, TIPO);
+
+        assertNotNull(result);
+        assertTrue(result.isPresent());
+        assertSame(domain, result.get());
+
+        verify(repository, times(1))
+                .findByNuUnidadeEhTipoUnidadeGestora(CODIGO, TIPO);
+
         verify(mapper, times(1)).toDomain(entity);
         verifyNoMoreInteractions(repository, mapper);
     }

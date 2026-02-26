@@ -1,6 +1,8 @@
-package br.gov.caixa.siaas_api.adapters.in.web.grupotrabalho.mapper;
+package br.gov.caixa.siaas_api.application.grupotrabalho.port.mapper;
+
 
 import br.gov.caixa.siaas_api.adapters.in.web.grupotrabalho.dto.GrupoTrabalhoResponse;
+import br.gov.caixa.siaas_api.adapters.in.web.grupotrabalho.mapper.GrupoTrabalhoWebMapper;
 import br.gov.caixa.siaas_api.domain.grupotrabalho.model.GrupoTrabalho;
 import org.junit.jupiter.api.Test;
 

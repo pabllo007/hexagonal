@@ -25,8 +25,13 @@ public class UnidadeGestoraWebMapper {
         return new UnidadeGestoraResponse(
                 domain.getNuUnidadeGestora(),
                 domain.getNoUnidadeGestora(),
+                domain.isAtivo(),
+                domain.getNuUnidade(),
+                domain.getTipo() != null ? domain.getTipo().getNuTipoUnidadeGestora() : null,
                 domain.getTipo() != null ? domain.getTipo().getNoTipoUnidadeGestora() : null,
-                domain.isAtivo()
+                domain.getGrupoTrabalho() != null ? domain.getGrupoTrabalho().getNuGrupoTrabalho() : null,
+                domain.getGrupoTrabalho() != null ? domain.getGrupoTrabalho().getNoGrupoTrabalho() : null,
+                domain.getNoCaixaPostal()
         );
     }
 

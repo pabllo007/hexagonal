@@ -1,7 +1,9 @@
 package br.gov.caixa.siaas_api.adapters.in.web.unidadegestora.rest;
 
+import br.gov.caixa.siaas_api.adapters.in.web.tipounidadegestora.rest.TipoUnidadeGestoraController;
 import br.gov.caixa.siaas_api.adapters.in.web.unidadegestora.dto.UnidadeGestoraResponse;
 import br.gov.caixa.siaas_api.adapters.in.web.unidadegestora.mapper.UnidadeGestoraWebMapper;
+import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarPorCodigoETipoUseCase;
 import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarUnidadeGestoraPorIdUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ProblemDetail;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/unidade-gestora")
@@ -23,11 +22,14 @@ public class UnidadeGestoraController {
     private static final Logger log = LoggerFactory.getLogger(UnidadeGestoraController.class);
 
     private final BuscarUnidadeGestoraPorIdUseCase buscarPorIdUseCase;
+    private final BuscarPorCodigoETipoUseCase buscarPorCodigoETipoUseCase;
     private final UnidadeGestoraWebMapper mapper;
 
     public UnidadeGestoraController(BuscarUnidadeGestoraPorIdUseCase buscarPorIdUseCase,
+                                    BuscarPorCodigoETipoUseCase buscarPorCodigoETipoUseCase,
                                    UnidadeGestoraWebMapper mapper) {
         this.buscarPorIdUseCase = buscarPorIdUseCase;
+        this.buscarPorCodigoETipoUseCase = buscarPorCodigoETipoUseCase;
         this.mapper = mapper;
     }
 
@@ -86,4 +88,15 @@ public class UnidadeGestoraController {
         var domain = buscarPorIdUseCase.buscar(id);
         return mapper.toResponse(domain);
     }
+
+
+    @GetMapping
+    public UnidadeGestoraResponse buscarPorCodigoETipo(
+            @RequestParam Long codigo,
+            @RequestParam Long tipo
+    ) {
+        var domain = buscarPorCodigoETipoUseCase.buscarPorCodigoEhTipo(codigo, tipo);
+        return mapper.toResponse(domain);
+    }
+
 }
