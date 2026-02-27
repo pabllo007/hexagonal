@@ -61,3 +61,12 @@ springdoc:
     enabled: ${SPRINGDOC_SWAGGER_UI_ENABLED:false}
   api-docs:
     enabled: ${SPRINGDOC_API_DOCS_ENABLED:false}
+
+app:
+  cache:
+    # Configuração preparada para migração futura para Redis sem alterar os @Cacheable.
+    grupo-trabalho:
+      ttl: ${CACHE_GRUPO_TRABALHO_TTL:P1D}
+    tipo-unidade-gestora:
+      ttl: ${CACHE_TIPO_UNIDADE_GESTORA_TTL:P1D}
+    maximum-size: ${CACHE_MAX_SIZE:100}

@@ -1,9 +1,12 @@
 package br.gov.caixa.siaas_api.application.grupotrabalho.usecase;
 
 import br.gov.caixa.siaas_api.application.grupotrabalho.port.out.GrupoTrabalhoPort;
+import br.gov.caixa.siaas_api.config.CacheNames;
 import br.gov.caixa.siaas_api.domain.grupotrabalho.model.GrupoTrabalho;
 import org.junit.jupiter.api.Test;
+import org.springframework.cache.annotation.Cacheable;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,5 +37,15 @@ class PesquisarGrupoTrabalhoServiceTest {
 
         verify(port, times(1)).findAll();
         verifyNoMoreInteractions(port);
+    }
+
+    @Test
+    void pesquisar_devePossuirAnotacaoCacheableCorreta() throws NoSuchMethodException {
+        Method method = PesquisarGrupoTrabalhoService.class.getMethod("pesquisar");
+        Cacheable cacheable = method.getAnnotation(Cacheable.class);
+
+        assertNotNull(cacheable);
+        assertEquals(CacheNames.GRUPO_TRABALHO, cacheable.cacheNames()[0]);
+        assertEquals("'all'", cacheable.key());
     }
 }
