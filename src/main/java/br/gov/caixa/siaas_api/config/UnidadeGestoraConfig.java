@@ -6,8 +6,10 @@ import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.mapper.UnidadeGestora
 import br.gov.caixa.siaas_api.adapters.out.persistence.jpa.repository.UnidadeGestoraRepository;
 import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarPorCodigoETipoUseCase;
 import br.gov.caixa.siaas_api.application.unidadegestora.port.in.BuscarUnidadeGestoraPorIdUseCase;
+import br.gov.caixa.siaas_api.application.unidadegestora.port.in.PesquisarUnidadeGestoraUseCase;
 import br.gov.caixa.siaas_api.application.unidadegestora.usecase.BuscarUnidadeGestoraPorCodigoEhTipoService;
 import br.gov.caixa.siaas_api.application.unidadegestora.usecase.BuscarUnidadeGestoraPorIdService;
+import br.gov.caixa.siaas_api.application.unidadegestora.usecase.PesquisarUnidadeGestoraService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -39,5 +41,10 @@ public class UnidadeGestoraConfig {
     @Bean
     public BuscarPorCodigoETipoUseCase buscarPorCodigoETipoUseCase(UnidadeGestoraJpaAdapter baseAdapter) {
         return new BuscarUnidadeGestoraPorCodigoEhTipoService(baseAdapter);
+    }
+
+    @Bean
+    public PesquisarUnidadeGestoraUseCase pesquisarUnidadeGestoraUseCase(UnidadeGestoraJpaAdapter baseAdapter) {
+        return new PesquisarUnidadeGestoraService(baseAdapter);
     }
 }

@@ -5,6 +5,7 @@ import br.gov.caixa.siaas_api.mensagens.MessageService;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -371,5 +372,20 @@ class GlobalExceptionHandlerTest {
 
         assertEquals(400, resp.getStatusCode().value());
         assertNotNull(resp.getBody());
+    }
+
+    @Test
+    void handlePropertyReferenceException_deveRetornar400ComMensagemAmigavel() {
+        PropertyReferenceException ex = mock(PropertyReferenceException.class);
+        when(ex.getPropertyName()).thenReturn("asdad");
+
+        ResponseEntity<ProblemDetail> resp = handler.handlePropertyReferenceException(ex);
+
+        assertEquals(400, resp.getStatusCode().value());
+        assertNotNull(resp.getBody());
+        assertEquals("Parâmetro de ordenação inválido", resp.getBody().getTitle());
+        assertEquals("Campo de ordenação inválido: 'asdad'.", resp.getBody().getDetail());
+        assertEquals("urn:simpa:query:invalid-sort", resp.getBody().getType().toString());
+        assertEquals("error.query.invalid-sort", resp.getBody().getProperties().get("code"));
     }
 }

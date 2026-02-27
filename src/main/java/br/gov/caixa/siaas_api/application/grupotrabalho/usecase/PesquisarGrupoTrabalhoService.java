@@ -2,7 +2,9 @@ package br.gov.caixa.siaas_api.application.grupotrabalho.usecase;
 
 import br.gov.caixa.siaas_api.application.grupotrabalho.port.in.PesquisarGrupoTrabalhoUseCase;
 import br.gov.caixa.siaas_api.application.grupotrabalho.port.out.GrupoTrabalhoPort;
+import br.gov.caixa.siaas_api.config.CacheNames;
 import br.gov.caixa.siaas_api.domain.grupotrabalho.model.GrupoTrabalho;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class PesquisarGrupoTrabalhoService implements PesquisarGrupoTrabalhoUseC
     }
 
     @Override
+    @Cacheable(cacheNames = CacheNames.GRUPO_TRABALHO, key = "'all'")
     public List<GrupoTrabalho> pesquisar() {
         return trabalhoPort.findAll();
     }
